@@ -1,3 +1,4 @@
+//TIMECLOCK
 class TimeClock{
   private:
     int h;
