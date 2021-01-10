@@ -1,3 +1,4 @@
+//4DigitDisplay
 #include <TimerOne.h>
 //the pins of 4-digit 7-segment display attach to pin2-13 respectively 
 int a = 7;
