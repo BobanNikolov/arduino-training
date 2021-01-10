@@ -1,3 +1,2 @@
-This is my Arduino training
-
-Here is the path to the final project. Enjoy!
+#arduino-training
+This is my path to my final Arduino project as a Arduino beginner.
