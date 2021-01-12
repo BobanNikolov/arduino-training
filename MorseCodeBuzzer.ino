@@ -1,6 +1,6 @@
 #define led 12      // blink an led on output 12
 #define buz 8      // output audio on pin 8
-#define note 1200      // music note/pitch
+#define note 1400      // music note/pitch
 #define element 50
 #define dot1 element
 #define dash1 (element * 3)
@@ -536,8 +536,11 @@ void morse() {
     } else if(ch == ' ') {
         delay(interworddelay);
         Serial.print("/ ");
-    } else
+    } else if(ch=='\n'){
+      Serial.print("\n");
+    }else{
         Serial.println("Unknown symbol!");
+    }
 }
 void String2Morse() {
     len = code.length();
