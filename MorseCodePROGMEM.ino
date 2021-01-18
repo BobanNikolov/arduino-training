@@ -6,11 +6,14 @@
 #define interchardelay (element * 3)
 #define interworddelay (element * 7)
 const byte led = 12;
-
 const byte messageString[] PROGMEM = "  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.  ";
-
+//So A is encoded as 5, which is 00000101 in binary 
+//-- the leading zero bits are ignored, 
+//the first one bit signals the beginning of the data, 
+//and the data bits are the 0 and the 1, 
+//which translate into dot dash. 
 const byte MorseCodeArray[] PROGMEM = {
-  0, 0, 0x52, 0, 0, 0, 0, 0x5E, 0x6D, 0x6D, 0, 0, 0x73, 0x61, 0x55, 0x32,             // Special chars
+  0x6B, 0x28, 0x5E, 0x36, 0x6D, 0x2A, 0x73, 0x61, 0x55, 0x32, 0x6A, 0x31, 0x4C, 0x5A, 0x2A, 0x7B,   //special chars          // Special chars
   0x3F, 0x2F, 0x27, 0x23, 0x21, 0x20, 0x30, 0x38, 0x3C, 0x3E, 0x78, 0, 0, 0, 0, 0x4C, // 0-9, :
   0, 5, 0x18, 0x1A, 0xC, 2, 0x12, 0xE, 0x10, 4, 0x17, 0xD, 0x14, 7, 6, 0xF,           // A-O
   0x16, 0x1D, 0xA, 8, 3, 9, 0x11, 0xB, 0x19, 0x1B, 0x1C, 0, 0, 0, 0, 0,               // P-Z
