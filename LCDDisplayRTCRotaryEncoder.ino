@@ -84,6 +84,7 @@ void checkSwitchCondition(void){
   }
 }
 void printToLCD(){
+  byte timeToCheck;
   lcd.setCursor(0,0);
   lcd.print(RTC.getDate(),DEC);
   lcd.setCursor(2,0);
@@ -98,24 +99,52 @@ void printToLCD(){
   lcd.print(RTC.getYear(),DEC);
   lcd.setCursor(11,0);
   lcd.print(DoW[RTC.getDoW()-1]);
-  if(RTC.getHour(h12Flag,pmFlag)<10){
+  timeToCheck=RTC.getHour(h12Flag,pmFlag);
+  if(timeToCheck<0){
+    timeToCheck=24;
+  }else if(timeToCheck>24){
+    timeToCheck=0;
+  }
+  if(timeToCheck<10){
+    lcd.setCursor(0,1);
+    lcd.print("0");
     lcd.setCursor(1,1);
   }else{
     lcd.setCursor(0,1);
   }
-  lcd.print(RTC.getHour(h12Flag,pmFlag),DEC);
+  lcd.print(timeToCheck,DEC);
   lcd.setCursor(2,1);
   lcd.print(":");
-  if(RTC.getMinute()<10){
+  timeToCheck=RTC.getMinute();
+  if(timeToCheck<0){
+    timeToCheck=60;
+  }else if(timeToCheck>60){
+    timeToCheck=0;
+  }
+  if(timeToCheck<10){
+    lcd.setCursor(3,1);
+    lcd.print("0");
     lcd.setCursor(4,1);
   }else{
     lcd.setCursor(3,1);
   }
-  lcd.print(RTC.getMinute(),DEC);
+  lcd.print(timeToCheck,DEC);
   lcd.setCursor(5,1);
   lcd.print(":");
-  lcd.setCursor(6,1);
-  lcd.print(RTC.getSecond(),DEC);
+  timeToCheck=RTC.getSecond();
+  if(timeToCheck<0){
+    timeToCheck=60;
+  }else if(timeToCheck>60){
+    timeToCheck=0;
+  }
+  if(timeToCheck<10){
+    lcd.setCursor(6,1);
+    lcd.print("0");
+    lcd.setCursor(7,1);
+  }else{
+    lcd.setCursor(6,1);
+  }
+  lcd.print(timeToCheck,DEC);
   lcd.setCursor(11,1);
   lcd.print(RTC.getTemperature(),1);
   lcd.setCursor(15,1);
@@ -135,14 +164,44 @@ void setup() {
   lcd.setCursor(0,0);
   lcd.print("SET ME UP");
 }
+byte correctDate(byte num){
+  if (setupState==SETDAY){
+    if(num<0){
+      num=31;
+    }else if(num>31){
+      num=0;
+    }
+  }else if(setupState==SETMON){
+    if(num<0){
+      num=12;
+    }else if(num>12){
+      num=0;
+    }
+  }else if(setupState==SETHOUR){
+    if(num<0){
+      num=24;
+    }else if(num>24){
+      num=0;
+    }
+  }else if(setupState==SETMIN||setupState==SETSEC){
+    if(num<0){
+      num=60;
+    }else if(num>60){
+      num=0;
+    }
+  }
+  return num;
+}
 byte getCounter(byte num){
   currentStateCLK = digitalRead(CLK);
    if (currentStateCLK != lastStateCLK&&currentStateCLK==1){
     if (digitalRead(DT) != currentStateCLK) {
-      num --;
+      num--;
+      num=correctDate(num);
       Serial.println(num);
     } else {
-      num ++;
+      num++;
+      num=correctDate(num);
       Serial.println(num);
     }
    }
@@ -152,11 +211,10 @@ byte getCounter(byte num){
 void loop() {
   // put your main code here, to run repeatedly:
   if(setupDone){
-    
     printToLCD();
   }else{
     checkSwitchCondition();
-   if(setupState==SETDAY){
+    if(setupState==SETDAY){
     lcd.clear();
     byte currDay=RTC.getDate();
     byte setupDate=getCounter(currDay);
