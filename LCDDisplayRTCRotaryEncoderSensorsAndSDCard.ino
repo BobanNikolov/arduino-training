@@ -254,7 +254,7 @@ void loop() {
       myFile=SD.open("boban.txt",FILE_WRITE);
       if(myFile){
         myFile.print("The time and date is now: ");
-        snprintf(timeString, sizeof(timeString), "%02d:%02d:%02d  %02d/%02d/%04d  ", RTC.getHour(h12Flag,pmFlag),RTC.getMinute(),RTC.getSecond(),(int)RTC.getDate(), (int)RTC.getMonth(century), RTC.getYear());
+        snprintf(timeString, sizeof(timeString), "%02d:%02d:%02d  %02d/%02d/%d  ", RTC.getHour(h12Flag,pmFlag),RTC.getMinute(),RTC.getSecond(),(int)RTC.getDate(), (int)RTC.getMonth(century), RTC.getYear());
         myFile.print(timeString);
         myFile.println(DoW[RTC.getDoW()-1]);
         myFile.print("Distance: "); myFile.print(distance); myFile.println(" cm");
@@ -263,6 +263,7 @@ void loop() {
         myFile.println("-----------------------------------------");
         myFile.close();
       }
+      delay(1000);
     }
     noTone(buz);
     printToLCD();
