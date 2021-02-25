@@ -299,7 +299,7 @@ void loop() {
         snprintf(timeString, sizeof(timeString), "%02d:%02d:%02d  %02d/%02d/%d  ", RTC.getHour(h12Flag,pmFlag),RTC.getMinute(),RTC.getSecond(),(int)RTC.getDate(), (int)RTC.getMonth(century), RTC.getYear());
         myFile.print(timeString);
         myFile.print(" Distance: "); myFile.print(distance); myFile.print(" cm");
-        myFile.print(" Temperature: "); myFile.print(finalTemperature); myFile.print((char)248);
+        myFile.print(" Temperature: "); myFile.print(finalTemperature); myFile.print("°");
         myFile.print(" Humidity: "); myFile.println(finalHumidity);
         myFile.close();
       }else{
